@@ -1,0 +1,6 @@
+-Redux
+-React-redux
+-Firebase
+-React Thunk
+-validator.js
+-dotenv

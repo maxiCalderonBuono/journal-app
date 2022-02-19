@@ -4,7 +4,7 @@ import JournalScreen from "../components/journal/JournalScreen";
 import AuthRouter from "./AuthRouter";
 
 const AppRouter = () => {
-  console.log(Router);
+  
 
   return (
     <Router>
