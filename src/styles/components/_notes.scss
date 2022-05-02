@@ -43,8 +43,45 @@
     flex: 1 1 auto;
     resize: none;
 }
+.notes__container {
+    display: flex;
+    border: 1px dashed $primary;
+    border-radius: 10px;
+    padding: 10px 0;
+    color: $dark-grey;
+    font-size: 18px;
+    font-weight: 700;
+}
 
+.notes__image {
+    position: relative;
+    transition: .5s ease;
+    margin: 0 12px;
+
+    &:hover {
+        transform: scale(1.07);
+    }
+
+}
 .notes__image img {
-    box-shadow: 5px $dark-grey;
+    box-shadow: 18px 16px 22px -17px rgba(0,0,0,0.3);
     height: 150px;
+    cursor: pointer;
+    border-radius:5px;
+    
+}
+
+.notes__close-icon{
+    position: absolute;
+    top:0;
+    right: 0;
+    color: lighten(red, $amount: 12);
+    background-color: #fff;
+    border: transparent;
+    border-radius: 50%;
+
+    &:hover {
+        cursor: pointer;
+    }
+
 }

@@ -1,11 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { login, startGoogleLogin } from "../../actions/auth";
+import { startGoogleLogin } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import validator from "validator";
 import { setUiError, removeUiError } from "../../actions/ui";
 import { startLoginWithEmailPassword} from "../../actions/auth";
+
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,8 @@ const LoginScreen = () => {
   const { msgError } = useSelector((state) => state.ui);
 
   const [formValues, handleInputChange] = useForm({
-    email: "calderonmaxi@outlook.com",
-    password: "1234",
+    email: "mimail@gmail.com",
+    password: "123456",
   });
 
   const { email, password } = formValues;
@@ -45,7 +46,7 @@ const LoginScreen = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="animate__animated animate__fadeIn animate__fast">
         <h3 className="auth__title mb-5">Login</h3>
         {msgError && <div className="auth__alert-error">{msgError}</div>}
         <input
@@ -88,7 +89,7 @@ const LoginScreen = () => {
           Create new account
         </Link>
       </form>
-    </>
+   </>
   );
 };
 

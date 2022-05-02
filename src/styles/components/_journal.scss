@@ -48,6 +48,7 @@
     border-radius: 4px;
     color: $dark-grey;
     display: flex;
+    justify-content: space-between;
     margin-bottom: 10px;
     overflow: hidden;
 }
@@ -80,3 +81,64 @@
 .journal__entry-date-box span {
     font-size: 12px;
 }
+
+.journal__container-ghost {
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.1);
+     animation-duration: 0.8s;
+    animation-name: changeOpacity;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.journal__entry__ghost{
+    background-color: gray;
+    border-radius: 4px;
+    color: $dark-grey;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    overflow: hidden;
+   
+}
+
+.journal__entry-picture__ghost {
+    height: 75px;
+    width: 75px;
+    background-color: white;
+    opacity: 0.8;
+
+}
+
+.journal__entry-body__ghost{
+    height: 15px;
+    margin-top: 10px;
+    background-color: white;
+    opacity: 0.8;
+}
+
+.journal__entry-date-box_ghost{
+    height: 50px;
+    width: 10%;
+    margin-top: 10px;
+    background-color: white;
+    opacity: 0.8;
+}
+
+.journal__entry-container__ghost{
+    height: 15px;
+    width: 60%;
+}
+
+
+  @keyframes changeOpacity {
+    from {
+      opacity: 0.3;
+    }
+  
+    to {
+      opacity: 0.1;
+    }
+  }
+  
+ 
