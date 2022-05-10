@@ -3,17 +3,19 @@ import { useSelector } from "react-redux";
 import GhostNotesContainer from "../animations/GhostNotesContainer";
 import JournalEntry from "./JournalEntry";
 
-const JournalEntries = () => {
+const JournalEntries = (props) => {
   const { notes } = useSelector((state) => state.notes);
   const { isLoadingNotes } = useSelector((state) => state.ui);
 
   return (
     <div className="journal__entries">
-       { isLoadingNotes
-       ? <GhostNotesContainer /> 
-       : notes.map((note) => (
-         <JournalEntry key={note.id} {...note} />
-       ))}
+      {isLoadingNotes ? (
+        <GhostNotesContainer />
+      ) : (
+        notes.map((note) => (
+          <JournalEntry key={note.id} {...note} close={props.close} />
+        ))
+      )}
     </div>
   );
 };

@@ -5,7 +5,6 @@ import NothingSelected from "./NothingSelected";
 import LoadingScreen from "../../components/animations/LoadingScreen";
 import Sidebar from "./Sidebar";
 
-
 const JournalScreen = () => {
   const { active } = useSelector((state) => state.notes);
   const { isNoteCreated } = useSelector((state) => state.ui);
@@ -14,11 +13,9 @@ const JournalScreen = () => {
     <div className="journal__main-content">
       <Sidebar />
 
-    
-
       <main>
-        {isNoteCreated? (
-             <LoadingScreen title = {"Creating new note..."}/>
+        {isNoteCreated ? (
+          <LoadingScreen title={"Creating new note..."} />
         ) : active ? (
           <NotesScreen />
         ) : (

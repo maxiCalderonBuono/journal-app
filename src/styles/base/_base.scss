@@ -42,3 +42,16 @@ main {
 .pointer{
     cursor: pointer;
 }
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
