@@ -11,32 +11,37 @@ import { googleAuthProvider } from "../firebase/firebase-config";
 import toast from "react-hot-toast";
 import { types } from "../types/types";
 import { noteLogout } from "./notes";
+import { LoginAnimation } from "./ui";
 
 const auth = getAuth();
 
 export const startLoginWithEmailPassword = (email, password) => {
   return (dispatch) => {
+    dispatch(LoginAnimation());
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         dispatch(login(user.uid, user.displayName));
+        dispatch(LoginAnimation());
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.message);
+        dispatch(LoginAnimation());
       });
   };
 };
 
 export const registerWithEmailPassword = (email, password, name) => {
   return (dispatch) => {
+    dispatch(LoginAnimation());
     createUserWithEmailAndPassword(auth, email, password)
       .then(async ({ user }) => {
         await updateProfile(user, { displayName: name });
         dispatch(login(user.uid, user.displayName));
+        dispatch(LoginAnimation());
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.message);
+        dispatch(LoginAnimation());
       });
   };
 };
@@ -48,7 +53,6 @@ export const startGoogleLogin = () => {
         dispatch(login(user.uid, user.displayName));
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.message);
       });
   };
@@ -67,10 +71,9 @@ export const startLogout = () => {
     signOut(auth)
       .then(() => {
         dispatch(logout());
-        dispatch(noteLogout())
+        dispatch(noteLogout());
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.message);
       });
   };

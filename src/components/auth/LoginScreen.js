@@ -5,17 +5,17 @@ import { startGoogleLogin } from "../../actions/auth";
 import { useForm } from "../../hooks/useForm";
 import validator from "validator";
 import { setUiError, removeUiError } from "../../actions/ui";
-import { startLoginWithEmailPassword} from "../../actions/auth";
-
+import { startLoginWithEmailPassword } from "../../actions/auth";
+import { Button } from "@chakra-ui/react";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
 
-  const { msgError } = useSelector((state) => state.ui);
+  const { msgError, isLogin } = useSelector((state) => state.ui);
 
   const [formValues, handleInputChange] = useForm({
-    email: "mimail@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
 
   const { email, password } = formValues;
@@ -23,7 +23,7 @@ const LoginScreen = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      dispatch(startLoginWithEmailPassword(email,password))
+      dispatch(startLoginWithEmailPassword(email, password));
     }
   };
 
@@ -46,7 +46,10 @@ const LoginScreen = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="animate__animated animate__fadeIn animate__fast">
+      <form
+        onSubmit={handleSubmit}
+        className="animate__animated animate__fadeIn animate__fast"
+      >
         <h3 className="auth__title mb-5">Login</h3>
         {msgError && <div className="auth__alert-error">{msgError}</div>}
         <input
@@ -66,9 +69,23 @@ const LoginScreen = () => {
           value={password}
           onChange={handleInputChange}
         />
-        <button className="btn btn-primary btn-block" type="submit">
+        <Button
+          isLoading={isLogin}
+          color="white"
+          loadingText="Get ready!"
+          type="submit"
+          bg="primary"
+          borderRadius="2px"
+          w="100%"
+          height="32px"
+          fontSize="12px"
+          py="7px"
+          px="10px"
+          _focus={{ outline: "none" }}
+          _hover={{ bg: "dark_primary" }}
+        >
           Login
-        </button>
+        </Button>
 
         <div className="auth__social-networks">
           <p>Login with social networks</p>
@@ -89,7 +106,7 @@ const LoginScreen = () => {
           Create new account
         </Link>
       </form>
-   </>
+    </>
   );
 };
 

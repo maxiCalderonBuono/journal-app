@@ -7,6 +7,7 @@ import {
 } from "../../actions/notes";
 import moment from "moment";
 import { Text, Box, useBreakpointValue } from "@chakra-ui/react";
+import toast from "react-hot-toast";
 
 const NotesAppBar = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const NotesAppBar = () => {
   const { active } = useSelector((state) => state.notes);
 
   const noteDate = moment(active.date);
+  const updateDate = moment(active.update);
 
   const handleSave = () => {
     dispatch(StartSaveNote(active));
@@ -26,6 +28,13 @@ const NotesAppBar = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
+    if (active.url.length >= 4) {
+      toast.error(
+        "Can not upload a new image (max 4). Please delete one and try again"
+      );
+      return;
+    }
+
     if (file) {
       dispatch(startUploadingPicture(file));
     }
@@ -35,23 +44,37 @@ const NotesAppBar = () => {
     dispatch(startDeleting(active.id));
   };
 
-  const show = useBreakpointValue({ base: true, sm: false });
+  const show = useBreakpointValue({
+    base: true,
+    sm: false,
+    md: true,
+    lg: false,
+  });
 
   return (
     <Box
       display="flex"
       flexDirection={show ? "column" : "row"}
-      justifyContent="space-between"
+      flexWrap="wrap"
+      justifyContent={["center", "space-between", "space-between"]}
       alignItems="center"
       bg="primary"
       color="white"
       py="10px"
       px="20px"
     >
-      <Text fontSize={["xs", "xs", "sm", "lg"]}>{`Created: ${noteDate.format(
-        "dddd, MMMM Do YYYY, h:mm:ss a"
-      )}`}</Text>
-
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems={["center", "flex-start", "center", "flex-start"]}
+      >
+        <Text
+          fontSize={["xs", "xs", "sm", "lg", "lg"]}
+        >{`Created: ${noteDate.format("dddd, MMMM Do YYYY, h:mm:ss a")}`}</Text>
+        <Text fontSize="xs">{`Updated: ${updateDate.format(
+          "MMMM Do YYYY, h:mm:ss a"
+        )}`}</Text>
+      </Box>
       <input
         id="fileSelector"
         type="file"
@@ -60,7 +83,7 @@ const NotesAppBar = () => {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-      <Box pt={show ? "10px" : ""}>
+      <Box pt={show ? "10px" : ""} textAlign="center">
         <button className="btn" onClick={handlePictureClick}>
           Files
         </button>

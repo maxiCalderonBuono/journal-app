@@ -24,8 +24,8 @@ const NothingSelected = () => {
       </p>
       <Icon
         as={icon}
-        w={[16, null, 20]}
-        h={[16, null, 20]}
+        w={[16, 16, 20, 20, 20]}
+        h={[16, 16, 20, 20, 20]}
         mt={2}
         onClick={newNote ? handleAddNew : null}
       />

@@ -5,6 +5,7 @@ import JournalEntry from "./JournalEntry";
 
 const JournalEntries = (props) => {
   const { notes } = useSelector((state) => state.notes);
+
   const { isLoadingNotes } = useSelector((state) => state.ui);
 
   return (
@@ -12,8 +13,8 @@ const JournalEntries = (props) => {
       {isLoadingNotes ? (
         <GhostNotesContainer />
       ) : (
-        notes.map((note) => (
-          <JournalEntry key={note.id} {...note} close={props.close} />
+        notes.map((note, index) => (
+          <JournalEntry key={index} {...note} close={props.close} />
         ))
       )}
     </div>

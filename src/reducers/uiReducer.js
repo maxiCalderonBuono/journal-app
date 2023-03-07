@@ -3,6 +3,7 @@ import { types } from "../types/types";
 const initialState = {
   loading: false,
   msgError: null,
+  isLogin: false,
   isNoteCreated: false,
   isLoadingNotes: false,
   isModalOpen: false,
@@ -53,6 +54,12 @@ export const uiReducer = (state = initialState, action) => {
       return {
         ...state,
         isModalOpen: false,
+      };
+
+    case types.isLogin:
+      return {
+        ...state,
+        isLogin: !state.isLogin,
       };
 
     default:

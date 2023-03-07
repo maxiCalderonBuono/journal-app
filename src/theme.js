@@ -1,7 +1,7 @@
 import { extendTheme, theme } from "@chakra-ui/react";
 
 const breakpoints = {
-  sm: "480px",
+  sm: "487px",
   md: "768px",
   lg: "1050px",
   xl: "1200px",
@@ -14,7 +14,15 @@ export default extendTheme({
   useSystemColorMode: false,
   colors: {
     primary: "#5c62c5",
+    dark_primary: "#383e9d",
     text: theme.colors.whiteAlpha,
     back: theme.colors.gray,
+  },
+  styles: {
+    global: {
+      "html, body": {
+        height: "100%",
+      },
+    },
   },
 });

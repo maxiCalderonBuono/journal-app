@@ -28,9 +28,10 @@ const JournalEntry = ({ id, date, title, body, url, close }) => {
       color={color}
       onClick={handleEntryClick}
       display="flex"
-      overflow="hidden"
+      overflowY="hidden"
       mb={2.5}
-      justifyContent="space-between"
+      height="80px"
+      width="300px"
       borderRadius="4px"
       cursor="pointer"
     >

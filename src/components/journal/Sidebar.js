@@ -7,7 +7,6 @@ import {
   useBreakpointValue,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -48,15 +47,17 @@ const Sidebar = () => {
     <>
       {show ? (
         <>
-          <Box h="full" bg={bgColor}>
-            <Icon as={BiMenuAltLeft} onClick={onOpen} w={10} h={10} />
+          <Box bg={bgColor}>
+            <Icon as={BiMenuAltLeft} onClick={onOpen} w={10} h={10} ml={2} />
           </Box>
+
           <Drawer
             isOpen={isOpen}
             placement="left"
             onClose={onClose}
             finalFocusRef={btnRef}
             size="full"
+            isFullHeight="true"
           >
             <DrawerOverlay />
             <DrawerContent>
@@ -70,7 +71,23 @@ const Sidebar = () => {
                     />
                     <span className="mx-1">{name}</span>
                   </h3>
-                  <Icon as={AiOutlineClose} onClick={onClose} w={7} h={7} />
+                  <Box display="flex">
+                    <Box
+                      as="button"
+                      border="none"
+                      bg="transparent"
+                      fontSize="16px"
+                      fontWeight="700"
+                      transition="color .4s ease"
+                      _hover={{ color: color }}
+                      _focus={{ outline: "none" }}
+                      onClick={handleLogout}
+                      px="3"
+                    >
+                      Logout
+                    </Box>
+                    <Icon as={AiOutlineClose} onClick={onClose} w={7} h={7} />
+                  </Box>
                 </div>
                 <Box
                   _hover={{ color: color }}
@@ -88,27 +105,9 @@ const Sidebar = () => {
                 </Box>
               </DrawerHeader>
 
-              <DrawerBody>
+              <DrawerBody maxH="550px">
                 <JournalEntries close={onClose} />
               </DrawerBody>
-
-              <DrawerFooter placement="left">
-                <Box
-                  as="button"
-                  border="none"
-                  bg="transparent"
-                  fontSize="16px"
-                  fontWeight="700"
-                  transition="color .4s ease"
-                  _hover={{ color: color }}
-                  _focus={{ outline: "none" }}
-                  onClick={handleLogout}
-                  px="10px"
-                  my="20px"
-                >
-                  Logout
-                </Box>
-              </DrawerFooter>
             </DrawerContent>
           </Drawer>
         </>
@@ -119,7 +118,7 @@ const Sidebar = () => {
           flexDirection="column"
           px="10px"
           h="100vh"
-          w="450px"
+          minW="350px"
           bg={bgColor}
         >
           <div className="journal__sidebar-navbar">

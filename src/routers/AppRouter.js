@@ -10,8 +10,6 @@ import { PublicRoutes } from "./PublicRoutes";
 import LoadingScreen from "../components/animations/LoadingScreen";
 import { startLoadingNotes } from "../actions/notes";
 
-
-
 const AppRouter = () => {
   const dispatch = useDispatch();
 
@@ -26,8 +24,7 @@ const AppRouter = () => {
         dispatch(login(user.uid, user.displayName));
         setIsLoggedIn(true);
 
-       dispatch(startLoadingNotes(user.uid))
-
+        dispatch(startLoadingNotes(user.uid));
       } else {
         setIsLoggedIn(false);
       }
@@ -37,35 +34,39 @@ const AppRouter = () => {
   }, [dispatch, setIsLoggedIn, setChecking]);
 
   if (checking) {
-    return  <LoadingScreen title= {"Please wait..."} color= {"#FFFFFF"} bgcolor= {"#363636"} />
+    return (
+      <LoadingScreen
+        title={"Please wait..."}
+        color={"#FFFFFF"}
+        bgcolor={"#363636"}
+      />
+    );
   }
 
   return (
-  
-      <Router>
-        <Routes>
-          <Route
-            path="/auth/*"
-            element={
-              <PublicRoutes isAuthenticated={isLoggedIn}>
-                <AuthRouter />
-              </PublicRoutes>
-            }
-          />
+    <Router>
+      <Routes>
+        <Route
+          path="/auth/*"
+          element={
+            <PublicRoutes isAuthenticated={isLoggedIn}>
+              <AuthRouter />
+            </PublicRoutes>
+          }
+        />
 
-          <Route
-            path="/"
-            element={
-              <PrivateRoutes isAuthenticated={isLoggedIn}>
-                <JournalScreen />
-              </PrivateRoutes>
-            }
-          />
+        <Route
+          path="/"
+          element={
+            <PrivateRoutes isAuthenticated={isLoggedIn}>
+              <JournalScreen />
+            </PrivateRoutes>
+          }
+        />
 
-          <Route path="*" element={<JournalScreen />} />
-        </Routes>
-      </Router>
-  
+        <Route path="*" element={<JournalScreen />} />
+      </Routes>
+    </Router>
   );
 };
 

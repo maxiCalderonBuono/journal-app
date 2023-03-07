@@ -1,26 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import validator from "validator";
 import { useDispatch, useSelector } from "react-redux";
 import { setUiError, removeUiError } from "../../actions/ui";
 import { registerWithEmailPassword } from "../../actions/auth";
-
+import { Button } from "@chakra-ui/react";
 
 const RegisterScreen = () => {
   const initialUser = {
-    nick: "Emc",
-    name: "Albert",
-    lastname: "Einstein",
-    email: "mimail@gmail.com",
-    password: "123456",
-    password2: "123456",
-    dni: 33333333,
-    birthday: "1991-08-12",
-    phone: "2618546239",
+    nick: "",
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    password2: "",
+    dni: "",
+    birthday: "",
+    phone: "",
   };
 
-  const [formValues, handleInputChange] = useForm(initialUser);
+  const [formValues, handleInputChange, reset] = useForm(initialUser);
 
   const {
     nick,
@@ -35,15 +35,18 @@ const RegisterScreen = () => {
   } = formValues;
 
   const dispatch = useDispatch();
-  const { msgError } = useSelector((state) => state.ui);
+  const { msgError, isLogin } = useSelector((state) => state.ui);
 
   const handleRegister = (e) => {
     e.preventDefault();
 
     if (isFormValid()) {
-      dispatch(registerWithEmailPassword(email,password, name))
+      dispatch(registerWithEmailPassword(email, password, name));
+      reset();
     }
   };
+
+  const [focus, setFocus] = useState(false);
 
   const isFormValid = () => {
     // validator.isEmpty(name , { ignore_whitespace: true })
@@ -73,7 +76,10 @@ const RegisterScreen = () => {
 
   return (
     <>
-      <form onSubmit={handleRegister} className="animate__animated animate__fadeIn animate__fast">
+      <form
+        onSubmit={handleRegister}
+        className="animate__animated animate__fadeIn animate__fast"
+      >
         <h3 className="auth__title mb-5">Register</h3>
 
         {msgError && <div className="auth__alert-error">{msgError}</div>}
@@ -147,7 +153,8 @@ const RegisterScreen = () => {
         />
         <input
           className="auth__input"
-          type="date"
+          type={focus ? "date" : "text"}
+          onFocus={() => setFocus(!focus)}
           placeholder="Birthday"
           name="birthday"
           autoComplete="off"
@@ -165,9 +172,24 @@ const RegisterScreen = () => {
           required
         />
 
-        <button className="btn btn-primary btn-block mb-5" type="submit">
+        <Button
+          isLoading={isLogin}
+          loadingText="Get ready!"
+          color="white"
+          type="submit"
+          bg="primary"
+          borderRadius="2px"
+          w="100%"
+          height="32px"
+          fontSize="12px"
+          py="7px"
+          px="10px"
+          mb="20px"
+          _focus={{ outline: "none" }}
+          _hover={{ bg: "dark_primary" }}
+        >
           Register
-        </button>
+        </Button>
 
         <Link className="link" to="/auth/login">
           Already registered?

@@ -22,13 +22,17 @@ export const createSidebarUi = () => ({
 });
 
 export const removeSidebarUi = () => ({
-  type: types.removeUiSidebar
+  type: types.removeUiSidebar,
 });
 
 export const openModal = () => ({
-  type: types.openUiModal
+  type: types.openUiModal,
 });
 
 export const closeModal = () => ({
-  type: types.closeUiModal
+  type: types.closeUiModal,
+});
+
+export const LoginAnimation = () => ({
+  type: types.isLogin,
 });

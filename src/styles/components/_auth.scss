@@ -27,14 +27,23 @@
     font-size: 1rem;
     margin-bottom: 0.8rem;
     height: 1.1rem;
-    width:100%;
+    width: 100%;
     transition: border-bottom 1px .4s ease;
 
-    &:focus{
+    &:focus {
         border-bottom: 1px solid $primary;
         outline: none;
     }
+
+     
 }
+
+.auth__input::placeholder{
+    color: lighten($color: $button-active-blue, $amount: 30);
+    font-size: 12px;
+}
+
+
 
 .auth__social-networks{
     align-items: center;

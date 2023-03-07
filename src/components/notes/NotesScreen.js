@@ -9,6 +9,8 @@ import { ModalCreator } from "../modal/ModalCreator";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Textarea, Input, useColorModeValue, Box } from "@chakra-ui/react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 const NotesScreen = () => {
   const { active: note } = useSelector((state) => state.notes);
@@ -23,6 +25,7 @@ const NotesScreen = () => {
   const dispatch = useDispatch();
 
   const [path, setPath] = useState("");
+
   const [isHover, setIsHover] = useState(null);
 
   useEffect(() => {
@@ -47,7 +50,6 @@ const NotesScreen = () => {
     const newNote = { ...note, url: modifiedURL };
 
     dispatch(StartSaveNote(newNote));
-    dispatch(activeNote(newNote.id, newNote));
   };
 
   const color = useColorModeValue("back.700", "text.900");
@@ -94,25 +96,59 @@ const NotesScreen = () => {
         {note.url && (
           <fieldset className="notes__container" style={{ color: color }}>
             <legend style={{ marginLeft: "30px" }}>Files</legend>
-            <Box w="200%" display="flex">
+            <Splide
+              className="notes_carrousel"
+              options={{
+                perPage: 4,
+                breakpoints: {
+                  1024: {
+                    perPage: 3,
+                    arrows: true,
+                  },
+                  900: {
+                    perPage: 2,
+                  },
+                  640: {
+                    perPage: 1,
+                  },
+                },
+                gap: "1rem",
+                arrows: false,
+                pagination: false,
+                rewind: true,
+                drag: "free",
+                rewindByDrag: true,
+                padding: "1rem",
+              }}
+              aria-label="My note files"
+            >
               {note.url.map((image, index) => (
-                <div
-                  key={index}
-                  className="notes__image"
-                  onMouseEnter={() => setIsHover(index)}
-                  onMouseLeave={() => setIsHover(null)}
-                >
-                  <img alt="imagen" src={image} onClick={handleOpenImage} />
-                  {index === isHover ? (
-                    <IconContext.Provider
-                      value={{ className: "notes__close-icon" }}
-                    >
-                      <AiFillCloseCircle onClick={() => handleDelete(image)} />
-                    </IconContext.Provider>
-                  ) : null}
-                </div>
+                <SplideSlide key={index}>
+                  <div
+                    className="notes__imageContainer"
+                    onMouseEnter={() => setIsHover(index)}
+                    onMouseLeave={() => setIsHover(null)}
+                  >
+                    <img
+                      alt="imagen"
+                      className="notes__image"
+                      src={image}
+                      onClick={handleOpenImage}
+                      draggable="true"
+                    />
+                    {index === isHover ? (
+                      <IconContext.Provider
+                        value={{ className: "notes__close-icon" }}
+                      >
+                        <AiFillCloseCircle
+                          onClick={() => handleDelete(image)}
+                        />
+                      </IconContext.Provider>
+                    ) : null}
+                  </div>
+                </SplideSlide>
               ))}
-            </Box>
+            </Splide>
           </fieldset>
         )}
       </Box>

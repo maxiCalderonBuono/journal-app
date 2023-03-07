@@ -1,5 +1,11 @@
 import { db } from "../firebase/firebase-config";
-import { addDoc, collection, updateDoc, doc, deleteDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { types } from "../types/types";
 import {
   createNoteUi,
@@ -21,6 +27,7 @@ export const StartNewNote = () => {
       title: "",
       body: "",
       date: new Date().getTime(),
+      url: [],
     };
 
     const docRef = await addDoc(
@@ -28,10 +35,8 @@ export const StartNewNote = () => {
       newNote
     );
 
-    console.log("Document written with ID: ", docRef.id);
-
     dispatch(activeNote(docRef.id, newNote));
-    dispatch(addNewNote(docRef.id, newNote))
+    dispatch(addNewNote(docRef.id, newNote));
     dispatch(removeNoteUi());
   };
 };
@@ -44,14 +49,24 @@ export const activeNote = (id, note) => ({
   },
 });
 
+export const refreshNote = (id, note) => ({
+  type: types.notesUpdate,
+  payload: {
+    id,
+    note: {
+      id,
+      ...note,
+    },
+  },
+});
+
 export const addNewNote = (id, note) => ({
   type: types.notesAddNew,
   payload: {
-    id, ...note
-  }
-})
-
-
+    id,
+    ...note,
+  },
+});
 
 export const startLoadingNotes = (uid) => {
   return async (dispatch) => {
@@ -72,8 +87,7 @@ export const setNotes = (notes) => ({
 
 export const StartSaveNote = (note) => {
   return async (dispatch, getState) => {
-
-    toast.loading('Please wait, saving file')
+    toast.loading("Please wait, saving file");
 
     const { uid } = getState().auth;
 
@@ -81,7 +95,7 @@ export const StartSaveNote = (note) => {
       delete note.url;
     }
 
-    const noteToFirestore = { ...note };
+    const noteToFirestore = { ...note, update: new Date().getTime() };
 
     delete noteToFirestore.id;
 
@@ -89,79 +103,58 @@ export const StartSaveNote = (note) => {
 
     await updateDoc(noteRef, noteToFirestore);
 
-    dispatch ( refreshNote(note.id, note))
+    dispatch(refreshNote(note.id, noteToFirestore));
+    dispatch(activeNote(note.id, noteToFirestore));
 
-   
     toast.dismiss();
-    toast.success("Your note has been successfully saved")
+    toast.success("Your note has been successfully saved");
   };
 };
 
-
-
-export const refreshNote = (id, note) => ({
-  
-   type: types.notesUpdate,
-   payload: {
-     id, note
-   }
-})
-
 export const startUploadingPicture = (file) => {
   return async (dispatch, getState) => {
+    toast.loading("Please wait, uploading file");
 
-    toast.loading('Please wait, uploading file')
+    const { active } = getState().notes;
 
-    const {active: activeNote } = getState().notes;
-
-    if(!activeNote.url){
-       activeNote.url = []
+    if (!active.url) {
+      active.url = [];
     }
 
-    const fileURL= await fileUploader(file)
+    const fileURL = await fileUploader(file);
+    active.url = [fileURL, ...active.url];
 
-    if(activeNote.url.length < 4){
-    activeNote.url = [fileURL, ...activeNote.url]}
-    else{
-      toast.dismiss();
-      toast.error('Can not upload a new image (max 4). Please delete one and try again')
-      return
-    }
-
-    dispatch( StartSaveNote( activeNote))
+    dispatch(StartSaveNote(active));
+    dispatch(refreshNote(active.id, active));
+    dispatch(activeNote(active.id, active));
 
     toast.dismiss();
-    toast.success('Got the data!')
-
-  }
-}
+    toast.success("Got the data!");
+  };
+};
 
 export const startDeleting = (id) => {
-  
-  toast.loading('Please wait, deleting file')
+  toast.loading("Please wait, deleting file");
 
   return async (dispatch, getState) => {
-
     const uid = getState().auth.uid;
 
-    const path = `${uid}/journal/notes/${id}`
+    const path = `${uid}/journal/notes/${id}`;
 
-    await deleteDoc(doc(db, path))
+    await deleteDoc(doc(db, path));
 
-    dispatch(deleteNote(id))
+    dispatch(deleteNote(id));
 
     toast.dismiss();
-    toast.success('Done!')
-  }
-
-}
+    toast.success("Done!");
+  };
+};
 
 export const deleteNote = (id) => ({
   type: types.notesDelete,
-  payload: id
-})
+  payload: id,
+});
 
 export const noteLogout = () => ({
   type: types.notesLogoutCleaning,
-})
-
+});

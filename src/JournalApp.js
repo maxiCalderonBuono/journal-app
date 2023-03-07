@@ -7,8 +7,8 @@ import { Toaster } from "react-hot-toast";
 export const JournalApp = () => {
   return (
     <Provider store={store}>
-      <AppRouter />
       <Toaster />
+      <AppRouter />
     </Provider>
   );
 };

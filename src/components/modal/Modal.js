@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../actions/ui";
@@ -26,9 +27,14 @@ const Modal = (props) => {
   return (
     <div className="modal">
       <div className="modal-backdrop" onClick={handleModalClose}></div>
-      <div className="modal-image-container">
+      <Box
+        position="fixed"
+        left="auto"
+        h={[null, null, null, null, "80%"]}
+        m="10px"
+      >
         <img className="modal-image" alt="imagen" src={props.src} />
-      </div>
+      </Box>
     </div>
   );
 };
