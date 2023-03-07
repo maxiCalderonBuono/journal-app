@@ -1,0 +1,12 @@
+.sidebar__name {
+    width:250px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0px 10px;
+
+
+    @media screen and (min-width: 496px) and (max-width: 760px) {
+            width: 100%;
+        }
+}

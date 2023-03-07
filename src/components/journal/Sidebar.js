@@ -69,15 +69,21 @@ const Sidebar = () => {
                       onClick={toggleColorMode}
                       cursor="pointer"
                     />
-                    <span className="mx-1">{name}</span>
                   </h3>
-                  <Box display="flex">
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="start"
+                    gap="8px"
+                  >
+                    <span className="sidebar__name">{name}</span>
                     <Box
                       as="button"
                       border="none"
                       bg="transparent"
                       fontSize="16px"
                       fontWeight="700"
+                      opacity="80%"
                       transition="color .4s ease"
                       _hover={{ color: color }}
                       _focus={{ outline: "none" }}
@@ -86,8 +92,8 @@ const Sidebar = () => {
                     >
                       Logout
                     </Box>
-                    <Icon as={AiOutlineClose} onClick={onClose} w={7} h={7} />
                   </Box>
+                  <Icon as={AiOutlineClose} onClick={onClose} w={7} h={7} />
                 </div>
                 <Box
                   _hover={{ color: color }}
@@ -137,7 +143,6 @@ const Sidebar = () => {
               _focus={{ outline: "none" }}
               onClick={handleLogout}
               px="10px"
-              my="20px"
             >
               Logout
             </Box>

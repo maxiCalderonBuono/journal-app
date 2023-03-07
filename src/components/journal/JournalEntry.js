@@ -31,7 +31,7 @@ const JournalEntry = ({ id, date, title, body, url, close }) => {
       overflowY="hidden"
       mb={2.5}
       height="80px"
-      width="300px"
+      width={["100%", "100%", "300px"]}
       borderRadius="4px"
       cursor="pointer"
     >

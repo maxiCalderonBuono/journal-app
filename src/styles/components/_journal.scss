@@ -10,8 +10,12 @@
 .journal__sidebar-navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items:center;
   font-weight: 700;
+
+@media screen and (max-width: 760px) {
+        align-items: baseline;
+    }
 }
 
 
@@ -20,6 +24,10 @@
     max-width: 380px;
   margin-top: 30px;
   overflow-y: scroll;
+
+  @media screen and (max-width: 760px) {
+    max-width: 100%;
+  }
 }
 
 .journal__entry {
